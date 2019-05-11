@@ -72,10 +72,9 @@ internal class ParsersTest {
             assertThat(parse(input)).isEqualTo(Try.Success(Direction.valueOf(expected)))
         }
 
-        @ParameterizedTest
-        @ValueSource(strings = ["invalid", "n", "North", "NORTH"])
-        fun `should fail parsing an invalid point`(input: String) {
-            assertThat(parse(input).isFailure()).isTrue()
+        @Test
+        fun `should fail parsing an invalid direction`() {
+            assertThat(parse("invalid").isFailure()).isTrue()
         }
     }
 

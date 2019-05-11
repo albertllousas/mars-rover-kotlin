@@ -12,6 +12,7 @@ import com.github.ajalt.clikt.parameters.options.multiple
 import com.github.ajalt.clikt.parameters.options.option
 import com.github.ajalt.clikt.parameters.types.choice
 import com.wallapop.marsrover.core.model.Direction
+import com.wallapop.marsrover.core.model.Direction.*
 import com.wallapop.marsrover.core.model.Grid
 import com.wallapop.marsrover.core.model.Point
 
@@ -22,26 +23,30 @@ class CommandLineClient(
     private val console: CliktConsole = defaultCliktConsole()
 ) : CliktCommand() {
 
+    companion object {
+        const val pointFormatMessage = "format 'x y'"
+    }
+
     val grid by option("--map-size", help = "map size - format 'x y'")
         .convert {
-            parseGrid(it).getOrElse { fail("format 'x y'") }
+            parseGrid(it).getOrElse { fail(pointFormatMessage) }
         }.default(Grid(10, 10))
 
     val initialPoint by option(help = "initial rover starting point - format 'x y'")
         .convert {
-            parsePoint(it).getOrElse { fail("format 'x y'") }
+            parsePoint(it).getOrElse { fail(pointFormatMessage) }
         }.default(Point(0, 0))
 
     val direction by option(help = "initial rover direction - ")
         .choice("N", "W", "S", "E")
         .convert {
-            parseDirection(it).getOrDefault { Direction.NORTH }
-        }
+            parseDirection(it).getOrDefault { NORTH }
+        }.default(NORTH )
 
 
     val obstacles by option("--obstacle", help = "initial starting point - format 'x y'")
         .convert {
-            parsePoint(it).getOrElse { fail("format 'x y'") }
+            parsePoint(it).getOrElse { fail(pointFormatMessage) }
         }.multiple()
 
     override fun run() {
