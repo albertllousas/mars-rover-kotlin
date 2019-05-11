@@ -1,5 +1,6 @@
 package com.wallapop.marsrover.cli
 
+import arrow.core.Either
 import arrow.core.Failure
 import arrow.core.Try
 import assertk.assertThat
@@ -8,9 +9,16 @@ import assertk.assertions.isInstanceOf
 import assertk.assertions.isTrue
 import com.wallapop.marsrover.core.model.Direction
 import com.wallapop.marsrover.core.model.Grid
+import com.wallapop.marsrover.core.model.MoveBackward
+import com.wallapop.marsrover.core.model.MoveForward
 import com.wallapop.marsrover.core.model.Point
+import com.wallapop.marsrover.core.model.RoverCommand
+import com.wallapop.marsrover.core.model.TurnLeft
+import com.wallapop.marsrover.core.model.TurnRight
+import org.junit.jupiter.api.DynamicTest.dynamicTest
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.TestFactory
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.ValueSource
 import org.junit.jupiter.params.provider.CsvSource
@@ -68,6 +76,29 @@ internal class ParsersTest {
         @ValueSource(strings = ["invalid", "n", "North", "NORTH"])
         fun `should fail parsing an invalid point`(input: String) {
             assertThat(parse(input).isFailure()).isTrue()
+        }
+    }
+
+    @Nested
+    inner class CommandParsingTest {
+
+        private val parse:DomainParser<RoverCommand> = Parsers::parseCommand
+
+        @TestFactory
+        fun `should parse valid commands`() = listOf(
+            "f" to Try.just(MoveForward),
+            "b" to Try.just(MoveBackward),
+            "l" to Try.just(TurnLeft),
+            "r" to Try.just(TurnRight)
+        ).map { (input, expected) ->
+            dynamicTest("should parse a string '$input' to '$expected'") {
+                assertThat(parse(input)).isEqualTo(expected)
+            }
+        }
+
+        @Test
+        fun `should fail parsing an invalid command`() {
+            assertThat(parse("invalid").isFailure()).isTrue()
         }
     }
 
