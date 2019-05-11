@@ -18,7 +18,7 @@ import com.wallapop.marsrover.core.model.RoverCommand
 import com.wallapop.marsrover.core.model.TurnRight
 import org.junit.jupiter.api.Test
 
-internal class CommandLineClientTest {
+internal class MarsRoverTest {
 
     private val console = mock<CliktConsole>().also {
         given(it.lineSeparator).willReturn("\n")
@@ -30,12 +30,12 @@ internal class CommandLineClientTest {
 
     private val pointParser = mock<DomainParser<Point>>()
 
-    private val commandLineClient = CommandLineClient(console = console)
+    private val commandLineClient = MarsRover(console = console)
 
     private val commands = "fbr"
 
     @Test
-    fun `command line client receives a character array of commands`() {
+    fun `rover receives a character array of commands`() {
         val domainCommands = listOf(MoveForward, MoveBackward, TurnRight)
         given(commandsParser.invoke(any())).willReturn(Try.just(domainCommands))
 
@@ -45,7 +45,7 @@ internal class CommandLineClientTest {
     }
 
     @Test
-    fun `command line client accepts map size option`() {
+    fun `rover accepts map size option`() {
         given(gridParser.invoke(any())).willReturn(Try.just(Grid(1, 2)))
 
         commandLineClient.main(arrayOf(commands, "--map-size=1 2"))
@@ -54,7 +54,7 @@ internal class CommandLineClientTest {
     }
 
     @Test
-    fun `command line client accepts multiple obstacles options`() {
+    fun `rover accepts multiple obstacles options`() {
         given(pointParser.invoke(any()))
             .willReturn(Try.just(Point(1, 2)))
             .willReturn(Try.just(Point(2, 3)))
@@ -65,7 +65,7 @@ internal class CommandLineClientTest {
     }
 
     @Test
-    fun `command line client accepts initial rover starting option`() {
+    fun `rover accepts initial rover starting option`() {
         given(pointParser.invoke(any())).willReturn(Try.just(Point(0, 0)))
 
         commandLineClient.main(arrayOf(commands, "--initial-point=0 0"))
@@ -74,7 +74,7 @@ internal class CommandLineClientTest {
     }
 
     @Test
-    fun `command line client accepts initial rover direction`() {
+    fun `rover accepts initial rover direction`() {
         given(pointParser.invoke(any())).willReturn(Try.just(Point(0, 0)))
 
         commandLineClient.main(arrayOf(commands, "--direction=N"))
@@ -83,7 +83,7 @@ internal class CommandLineClientTest {
     }
 
     @Test
-    fun `command line client prints hello world`() {
+    fun `rover prints hello world`() {
         given(gridParser.invoke(any())).willReturn(Try.just(Grid(1, 2)))
 
         commandLineClient.main(arrayOf(commands))

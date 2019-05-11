@@ -19,7 +19,7 @@ import com.wallapop.marsrover.core.model.Grid
 import com.wallapop.marsrover.core.model.Point
 import com.wallapop.marsrover.core.model.RoverCommand
 
-class CommandLineClient(
+class MarsRover(
     private val parseCommands: DomainParser<List<RoverCommand>> = Parsers::parseCommands,
     private val parseGrid: DomainParser<Grid> = Parsers::parseGrid,
     private val parsePoint: DomainParser<Point> = Parsers::parsePoint,
