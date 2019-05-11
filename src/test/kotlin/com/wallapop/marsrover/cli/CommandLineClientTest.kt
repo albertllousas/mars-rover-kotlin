@@ -9,6 +9,7 @@ import com.nhaarman.mockitokotlin2.given
 import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.verify
 import com.wallapop.marsrover.core.model.Grid
+import com.wallapop.marsrover.core.model.Point
 import org.junit.jupiter.api.Test
 
 internal class CommandLineClientTest {
@@ -19,14 +20,27 @@ internal class CommandLineClientTest {
 
     private val gridParser = mock<DomainParser<Grid>>()
 
+    private val pointParser = mock<DomainParser<Point>>()
+
     private val commandLineClient = CommandLineClient(console = console)
 
-    private val arguments = arrayOf("--map-size=1 2")
+    private val arguments = arrayOf("--map-size=1 2", "--initial-point=0 0")
 
     @Test
     fun `command line client accepts map size option`() {
 
         given(gridParser.invoke(any())).willReturn(Try.just(Grid(1, 2)))
+
+        commandLineClient.main(arguments)
+
+        assertThat(commandLineClient.grid).isEqualTo(Grid(1, 2))
+
+    }
+
+    @Test
+    fun `command line client accepts initial starting option`() {
+
+        given(pointParser.invoke(any())).willReturn(Try.just(Point(1, 2)))
 
         commandLineClient.main(arguments)
 
