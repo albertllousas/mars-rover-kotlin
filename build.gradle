@@ -8,6 +8,7 @@ ext {
     junit_version = "5.3.1"
     assertk_version = "0.14"
     clickt_version = "1.7.0"
+    mockito_kotlin_version = "2.1.0"
 }
 
 repositories {
@@ -26,6 +27,7 @@ dependencies {
     testCompile "com.willowtreeapps.assertk:assertk-jvm:$assertk_version"
     testImplementation 'org.jetbrains.kotlin:kotlin-test'
     testImplementation 'org.jetbrains.kotlin:kotlin-test-junit'
+    testImplementation "com.nhaarman.mockitokotlin2:mockito-kotlin:$mockito_kotlin_version"
 }
 
 mainClassName = 'com.wallapop.marsrover.AppKt'
