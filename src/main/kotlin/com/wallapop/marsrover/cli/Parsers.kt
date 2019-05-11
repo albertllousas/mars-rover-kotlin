@@ -41,6 +41,14 @@ object Parsers {
             Point(x = x.toInt(), y = y.toInt())
         }
 
+    fun parseCommands(commands: String): Try<List<RoverCommand>> =
+        commands
+            .toCharArray()
+            .map(this::parseCommand)
+            .fold(initial = Try.just(emptyList())) { acc, current ->
+                acc.flatMap { list -> current.map { element -> list.plus(element) } }
+            }
+
     fun parseCommand(command: Char): Try<RoverCommand> =
         when (command) {
             'f' -> Try.just(MoveForward)

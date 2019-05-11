@@ -1,18 +1,15 @@
 package com.wallapop.marsrover.cli
 
-import arrow.core.Either
-import arrow.core.Failure
+import arrow.core.Success
 import arrow.core.Try
 import assertk.assertThat
 import assertk.assertions.isEqualTo
-import assertk.assertions.isInstanceOf
 import assertk.assertions.isTrue
 import com.wallapop.marsrover.core.model.Direction
 import com.wallapop.marsrover.core.model.Grid
 import com.wallapop.marsrover.core.model.MoveBackward
 import com.wallapop.marsrover.core.model.MoveForward
 import com.wallapop.marsrover.core.model.Point
-import com.wallapop.marsrover.core.model.RoverCommand
 import com.wallapop.marsrover.core.model.TurnLeft
 import com.wallapop.marsrover.core.model.TurnRight
 import org.junit.jupiter.api.DynamicTest.dynamicTest
@@ -20,9 +17,8 @@ import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestFactory
 import org.junit.jupiter.params.ParameterizedTest
-import org.junit.jupiter.params.provider.ValueSource
 import org.junit.jupiter.params.provider.CsvSource
-
+import org.junit.jupiter.params.provider.ValueSource
 
 
 internal class ParsersTest {
@@ -30,7 +26,7 @@ internal class ParsersTest {
     @Nested
     inner class GridParsingTest {
 
-        private val parse:DomainParser<Grid> = Parsers::parseGrid
+        private val parse: DomainParser<Grid> = Parsers::parseGrid
 
         @Test
         fun `should parse a valid grid`() {
@@ -47,7 +43,7 @@ internal class ParsersTest {
     @Nested
     inner class PointParsingTest {
 
-        private val parse:DomainParser<Point> = Parsers::parsePoint
+        private val parse: DomainParser<Point> = Parsers::parsePoint
 
         @Test
         fun `should parse a valid point`() {
@@ -64,7 +60,7 @@ internal class ParsersTest {
     @Nested
     inner class DirectionParsingTest {
 
-        private val parse:DomainParser<Direction> = Parsers::parseDirection
+        private val parse: DomainParser<Direction> = Parsers::parseDirection
 
         @ParameterizedTest
         @CsvSource("E,EAST", "N,NORTH", "W,WEST", "S, SOUTH")
@@ -81,23 +77,36 @@ internal class ParsersTest {
     @Nested
     inner class CommandParsingTest {
 
-        private val parse = Parsers::parseCommand
+        private val parseSingle = Parsers::parseCommand
+
+        private val parseMultiple = Parsers::parseCommands
 
         @TestFactory
         fun `should parse valid single command`() = listOf(
-            'f' to Try.just(MoveForward),
-            'b' to Try.just(MoveBackward),
-            'l' to Try.just(TurnLeft),
-            'r' to Try.just(TurnRight)
+            'f' to Success(MoveForward),
+            'b' to Success(MoveBackward),
+            'l' to Success(TurnLeft),
+            'r' to Success(TurnRight)
         ).map { (input, expected) ->
             dynamicTest("should parse a string '$input' to '$expected'") {
-                assertThat(parse(input)).isEqualTo(expected)
+                assertThat(parseSingle(input)).isEqualTo(expected)
             }
         }
 
         @Test
         fun `should fail parsing an invalid single command`() {
-            assertThat(parse('i').isFailure()).isTrue()
+            assertThat(parseSingle('i').isFailure()).isTrue()
+        }
+
+        @Test
+        fun `should parse multiple commands`() {
+            assertThat(parseMultiple("fblr"))
+                .isEqualTo(Success(listOf(MoveForward, MoveBackward, TurnLeft, TurnRight)))
+        }
+
+        @Test
+        fun `should fail parsing multiple commands when there is an invalid one`() {
+            assertThat(parseMultiple("fiblr").isFailure()).isTrue()
         }
     }
 
