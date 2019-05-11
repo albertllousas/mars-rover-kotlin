@@ -6,6 +6,8 @@ import com.github.ajalt.clikt.output.CliktConsole
 import com.github.ajalt.clikt.output.TermUi
 import com.github.ajalt.clikt.output.defaultCliktConsole
 import com.github.ajalt.clikt.parameters.options.convert
+import com.github.ajalt.clikt.parameters.options.default
+import com.github.ajalt.clikt.parameters.options.multiple
 import com.github.ajalt.clikt.parameters.options.option
 import com.github.ajalt.clikt.parameters.options.prompt
 import com.wallapop.marsrover.core.model.Grid
@@ -20,12 +22,17 @@ class CommandLineClient(
     val grid by option("--map-size", help = "map size - format 'x y'")
         .convert {
             parseGrid(it).getOrElse { fail("format 'x y'") }
-        }.prompt("Insert map size")
+        }.default(Grid(10, 10))
 
     val initialPoint by option(help = "initial starting point - format 'x y'")
         .convert {
             parsePoint(it).getOrElse { fail("format 'x y'") }
-        }.prompt("Insert initial starting point")
+        }.default(Point(0, 0))
+
+    val obstacles by option("--obstacle", help = "initial starting point - format 'x y'")
+        .convert {
+            parsePoint(it).getOrElse { fail("format 'x y'") }
+        }.multiple()
 
     override fun run() {
         TermUi.echo("Hello World!", console = console)

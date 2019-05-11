@@ -38,7 +38,7 @@ internal class ParsersTest {
 
         @Test
         fun `should parse a valid point`() {
-            assertThat(parse("2 3")).isEqualTo(Try.Success(Point(20, 12)))
+            assertThat(parse("2 3")).isEqualTo(Try.Success(Point(2, 3)))
         }
 
         @ParameterizedTest

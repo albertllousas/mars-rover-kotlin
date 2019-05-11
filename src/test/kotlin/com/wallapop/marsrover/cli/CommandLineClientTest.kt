@@ -1,6 +1,7 @@
 package com.wallapop.marsrover.cli
 
 import arrow.core.Try
+import assertk.assertAll
 import assertk.assertThat
 import assertk.assertions.isEqualTo
 import com.github.ajalt.clikt.output.CliktConsole
@@ -24,27 +25,38 @@ internal class CommandLineClientTest {
 
     private val commandLineClient = CommandLineClient(console = console)
 
-    private val arguments = arrayOf("--map-size=1 2", "--initial-point=0 0")
-
     @Test
     fun `command line client accepts map size option`() {
 
         given(gridParser.invoke(any())).willReturn(Try.just(Grid(1, 2)))
 
-        commandLineClient.main(arguments)
+        commandLineClient.main(arrayOf("--map-size=1 2"))
 
         assertThat(commandLineClient.grid).isEqualTo(Grid(1, 2))
 
     }
 
     @Test
+    fun `command line client accepts multiple obstacles options`() {
+
+        given(pointParser.invoke(any()))
+            .willReturn(Try.just(Point(1, 2)))
+            .willReturn(Try.just(Point(2, 3)))
+
+        commandLineClient.main(arrayOf("--obstacle=1 2", "--obstacle=2 3"))
+
+        assertThat(commandLineClient.obstacles).isEqualTo(listOf(Point(1, 2), Point(2, 3)))
+
+    }
+
+    @Test
     fun `command line client accepts initial starting option`() {
 
-        given(pointParser.invoke(any())).willReturn(Try.just(Point(1, 2)))
+        given(pointParser.invoke(any())).willReturn(Try.just(Point(0, 0)))
 
-        commandLineClient.main(arguments)
+        commandLineClient.main(arrayOf("--initial-point=0 0"))
 
-        assertThat(commandLineClient.grid).isEqualTo(Grid(1, 2))
+        assertThat(commandLineClient.initialPoint).isEqualTo(Point(0, 0))
 
     }
 
@@ -53,7 +65,13 @@ internal class CommandLineClientTest {
 
         given(gridParser.invoke(any())).willReturn(Try.just(Grid(1, 2)))
 
-        commandLineClient.main(arguments)
+        commandLineClient.main(emptyArray())
+
+        assertAll {
+            assertThat(commandLineClient.initialPoint).isEqualTo(Point(0, 0))
+            assertThat(commandLineClient.grid).isEqualTo(Grid(10, 10))
+            assertThat(commandLineClient.obstacles).isEqualTo(emptyList<Point>())
+        }
 
         verify(console).print("Hello World!\n", false)
     }
