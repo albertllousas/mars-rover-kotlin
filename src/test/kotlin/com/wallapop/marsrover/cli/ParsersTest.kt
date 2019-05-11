@@ -81,14 +81,14 @@ internal class ParsersTest {
     @Nested
     inner class CommandParsingTest {
 
-        private val parse:DomainParser<RoverCommand> = Parsers::parseCommand
+        private val parse = Parsers::parseCommand
 
         @TestFactory
-        fun `should parse valid commands`() = listOf(
-            "f" to Try.just(MoveForward),
-            "b" to Try.just(MoveBackward),
-            "l" to Try.just(TurnLeft),
-            "r" to Try.just(TurnRight)
+        fun `should parse valid single command`() = listOf(
+            'f' to Try.just(MoveForward),
+            'b' to Try.just(MoveBackward),
+            'l' to Try.just(TurnLeft),
+            'r' to Try.just(TurnRight)
         ).map { (input, expected) ->
             dynamicTest("should parse a string '$input' to '$expected'") {
                 assertThat(parse(input)).isEqualTo(expected)
@@ -96,8 +96,8 @@ internal class ParsersTest {
         }
 
         @Test
-        fun `should fail parsing an invalid command`() {
-            assertThat(parse("invalid").isFailure()).isTrue()
+        fun `should fail parsing an invalid single command`() {
+            assertThat(parse('i').isFailure()).isTrue()
         }
     }
 
