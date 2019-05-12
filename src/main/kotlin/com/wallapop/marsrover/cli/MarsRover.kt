@@ -15,13 +15,15 @@ import com.github.ajalt.clikt.parameters.options.option
 import com.github.ajalt.clikt.parameters.types.choice
 import com.wallapop.marsrover.core.model.Direction.NORTH
 import com.wallapop.marsrover.core.model.Grid
+import com.wallapop.marsrover.core.model.Obstacle
 import com.wallapop.marsrover.core.model.Point
 import com.wallapop.marsrover.core.model.Position
-import com.wallapop.marsrover.core.usecase.MoveRoverUseCase
+import com.wallapop.marsrover.core.model.Rover
 
 class MarsRover(
-    private val moveRoverUseCase: MoveRoverUseCase = MoveRoverUseCase(),
+    private val roverCreator: (Position, Grid, (Obstacle) -> Unit) -> Rover = ::Rover,
     private val domainParser: DomainParser = DefaultParser,
+    private val domainFormatter: DomainFormatter = DefaultFormatter,
     private val console: CliktConsole = defaultCliktConsole()
 ) : CliktCommand(
     help = """
@@ -46,13 +48,15 @@ class MarsRover(
     val obstacles by obstaclesOption()
 
     override fun run() {
-        moveRoverUseCase.move(
-            initialPosition = Position(initialPoint, direction),
-            grid = grid.copy(obstacles = obstacles),
-            commands = commands,
-            report = { obstacle -> TermUi.echo("obstacle at ${obstacle.point.x}", console = console) }
+        roverCreator(
+            Position(initialPoint, direction), grid.copy(obstacles = obstacles), this::report
         )
-        TermUi.echo("Hello World!", console = console)
+            .execute(commands = commands)
+            .also { TermUi.echo(domainFormatter.formatResult(it), console = console) }
+    }
+
+    private fun report(obstacle: Obstacle) {
+        TermUi.echo(domainFormatter.format(obstacle), console = console)
     }
 
     private fun commandsArgument() =

@@ -5,13 +5,13 @@ import com.wallapop.marsrover.core.model.Point
 import com.wallapop.marsrover.core.model.Rover
 
 interface DomainFormatter {
-    fun formatObstacle(obstacle: Obstacle): String
+    fun format(obstacle: Obstacle): String
     fun formatResult(rover: Rover): String
 }
 
 object DefaultFormatter : DomainFormatter {
 
-    override fun formatObstacle(obstacle: Obstacle) =
+    override fun format(obstacle: Obstacle) =
         "Obstacle detected at '${formatPoint(obstacle.point)}'"
 
     override fun formatResult(rover: Rover) =

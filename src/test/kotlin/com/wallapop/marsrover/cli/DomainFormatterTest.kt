@@ -14,7 +14,7 @@ internal class DomainFormatterTest {
 
     @Test
     fun `should format an obstacle`() {
-        assertThat(DefaultFormatter.formatObstacle(Obstacle(Point(1, 1))))
+        assertThat(DefaultFormatter.format(Obstacle(Point(1, 1))))
             .isEqualTo("Obstacle detected at '1 1'")
     }
 

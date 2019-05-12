@@ -12,9 +12,7 @@ import org.junit.jupiter.api.Test
 
 internal class RoverTest {
 
-
     private val grid = mock<Grid>()
-
 
     @Test
     fun `should not move rover when commands are empty`() {
