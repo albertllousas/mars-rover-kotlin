@@ -118,8 +118,9 @@ After only two days working in that exercise I have leaved it with some pending 
 - Logging
 - Think about a model that supports infinite command parsing
 - Find a better coverage library
-- Add a usecase/service layer to decouple and orchestrate presentation from domain 
+- Add a usecase/service layer to orchestrate and decouple presentation from domain 
 - CI 
+- Remove gradle warnings
 
 
 
