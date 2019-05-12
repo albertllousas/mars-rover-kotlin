@@ -92,8 +92,6 @@ The code should be self explanatory and you will see that I have a lot of influe
 Usually I keep and eye in the big picture, but in this kata I have been following YAGNI principle, so in theory the code
 shouldn't be over-engineered.
 
-If you check the commit log you will also see that I have been jumping from outside-in to inside-out TDD approaches 
-during the exercise.
 
 ## Tech stack
 
