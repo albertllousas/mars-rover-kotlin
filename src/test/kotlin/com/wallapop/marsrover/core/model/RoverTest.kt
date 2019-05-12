@@ -14,12 +14,14 @@ import org.junit.jupiter.api.Test
 
 internal class RoverTest {
 
-    private val move = mock<(Position, RoverCommand) -> Either<Obstacle, Position>>()
+    private val grid = Grid(10, 10)
+
+    private val move = mock<(Position, RoverCommand, Grid) -> Either<Obstacle, Position>>()
 
     @Test
     fun `should not move rover when commands are empty`() {
         val initialPosition = Position(Point(1, 1), NORTH)
-        val rover = Rover(initialPosition, move)
+        val rover = Rover(initialPosition, grid, move)
 
         val actual = rover.execute(emptyList())
 
@@ -32,11 +34,11 @@ internal class RoverTest {
         val secondPosition = Position(Point(1, 2), NORTH)
         val thirdPosition = Position(Point(1, 2), EAST)
         val finalPosition = Position(Point(2, 2), EAST)
-        val rover = Rover(initialPosition, move)
+        val rover = Rover(initialPosition, grid, move)
         val commands = listOf(MoveForward, TurnRight, MoveForward)
-        given(move.invoke(initialPosition, MoveForward)).willReturn(Right(secondPosition))
-        given(move.invoke(secondPosition, TurnRight)).willReturn(Right(thirdPosition))
-        given(move.invoke(thirdPosition, MoveForward)).willReturn(Right(finalPosition))
+        given(move.invoke(initialPosition, MoveForward, grid)).willReturn(Right(secondPosition))
+        given(move.invoke(secondPosition, TurnRight, grid)).willReturn(Right(thirdPosition))
+        given(move.invoke(thirdPosition, MoveForward, grid)).willReturn(Right(finalPosition))
 
         val actual = rover.execute(commands)
 
@@ -48,9 +50,9 @@ internal class RoverTest {
         val initialPosition = Position(Point(1, 1), NORTH)
         val obstacle = Obstacle(Point(1, 2))
         val report = mock<(Obstacle) -> Unit>()
-        val rover = Rover(initialPosition, move, report)
+        val rover = Rover(initialPosition, grid, move, report)
         val commands = listOf(MoveForward, TurnRight, MoveForward)
-        given(move.invoke(initialPosition, MoveForward)).willReturn(Left(obstacle))
+        given(move.invoke(initialPosition, MoveForward, grid)).willReturn(Left(obstacle))
 
         val actual = rover.execute(commands)
 
