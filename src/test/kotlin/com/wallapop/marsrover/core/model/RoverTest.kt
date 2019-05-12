@@ -23,7 +23,7 @@ internal class RoverTest {
 
         val actual = rover.execute(emptyList())
 
-        assertThat(actual).isEqualTo(initialPosition)
+        assertThat(actual).isEqualTo(rover.copy(initialPosition))
     }
 
     @Test
@@ -40,7 +40,7 @@ internal class RoverTest {
 
         val actual = rover.execute(commands)
 
-        assertThat(actual).isEqualTo(finalPosition)
+        assertThat(actual).isEqualTo(rover.copy(finalPosition))
     }
 
     @Test
@@ -54,7 +54,7 @@ internal class RoverTest {
 
         val actual = rover.execute(commands)
 
-        assertThat(actual).isEqualTo(initialPosition)
+        assertThat(actual).isEqualTo(rover.copy(initialPosition))
 
         verify(report).invoke(obstacle)
     }
