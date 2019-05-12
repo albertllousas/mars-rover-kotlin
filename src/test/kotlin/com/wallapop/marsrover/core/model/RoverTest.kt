@@ -16,7 +16,7 @@ internal class RoverTest {
 
     private val grid = Grid(10, 10)
 
-    private val move = mock<(Position, RoverCommand, Grid) -> Either<Obstacle, Position>>()
+    private val move = mock<(RoverCommand) -> Either<Obstacle, Position>>()
 
     @Test
     fun `should not move rover when commands are empty`() {
@@ -36,9 +36,9 @@ internal class RoverTest {
         val finalPosition = Position(Point(2, 2), EAST)
         val rover = Rover(initialPosition, grid, move)
         val commands = listOf(MoveForward, TurnRight, MoveForward)
-        given(move.invoke(initialPosition, MoveForward, grid)).willReturn(Right(secondPosition))
-        given(move.invoke(secondPosition, TurnRight, grid)).willReturn(Right(thirdPosition))
-        given(move.invoke(thirdPosition, MoveForward, grid)).willReturn(Right(finalPosition))
+        given(move.invoke(MoveForward)).willReturn(Right(secondPosition))
+        given(move.invoke(TurnRight)).willReturn(Right(thirdPosition))
+        given(move.invoke(MoveForward)).willReturn(Right(finalPosition))
 
         val actual = rover.execute(commands)
 
@@ -50,9 +50,9 @@ internal class RoverTest {
         val initialPosition = Position(Point(1, 1), NORTH)
         val obstacle = Obstacle(Point(1, 2))
         val report = mock<(Obstacle) -> Unit>()
-        val rover = Rover(initialPosition, grid, move, report)
+        val rover = Rover(initialPosition, grid, report = report, move = move)
         val commands = listOf(MoveForward, TurnRight, MoveForward)
-        given(move.invoke(initialPosition, MoveForward, grid)).willReturn(Left(obstacle))
+        given(move.invoke(MoveForward)).willReturn(Left(obstacle))
 
         val actual = rover.execute(commands)
 

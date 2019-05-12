@@ -9,9 +9,10 @@ private val noop = { _: Any -> Unit }
 data class Rover(
     val position: Position,
     val grid: Grid,
-    val move: (Position, RoverCommand, Grid) -> Either<Obstacle, Position>,
+    val move: (command: RoverCommand) -> Either<Obstacle, Position>,
     val report: (Obstacle) -> Unit = noop
 ) {
+
     fun execute(commands: List<RoverCommand>): Rover {
         return this.copy(position = execute(position, commands))
     }
@@ -20,7 +21,7 @@ data class Rover(
         if (commands.isEmpty()) {
             currentPosition
         } else {
-            when (val movement = move(currentPosition, commands.first(), grid)) {
+            when (val movement = move(commands.first())) {
                 is Left -> currentPosition.also { report(movement.a) }
                 is Right -> execute(movement.b, commands.drop(1))
             }
