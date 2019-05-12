@@ -9,6 +9,7 @@ import com.wallapop.marsrover.core.model.Direction
 import com.wallapop.marsrover.core.model.Grid
 import com.wallapop.marsrover.core.model.MoveBackward
 import com.wallapop.marsrover.core.model.MoveForward
+import com.wallapop.marsrover.core.model.Obstacle
 import com.wallapop.marsrover.core.model.Point
 import com.wallapop.marsrover.core.model.TurnLeft
 import com.wallapop.marsrover.core.model.TurnRight
@@ -21,12 +22,12 @@ import org.junit.jupiter.params.provider.CsvSource
 import org.junit.jupiter.params.provider.ValueSource
 
 
-internal class ParsersTest {
+internal class DomainParserTest {
 
     @Nested
     inner class GridParsingTest {
 
-        private val parse: DomainParser<Grid> = Parsers::parseGrid
+        private val parse = DefaultParser::parseGrid
 
         @Test
         fun `should parse a valid grid`() {
@@ -43,7 +44,7 @@ internal class ParsersTest {
     @Nested
     inner class PointParsingTest {
 
-        private val parse: DomainParser<Point> = Parsers::parsePoint
+        private val parse = DefaultParser::parsePoint
 
         @Test
         fun `should parse a valid point`() {
@@ -58,9 +59,19 @@ internal class ParsersTest {
     }
 
     @Nested
+    inner class ObstacleParsingTest {
+        private val parse = DefaultParser::parseObstacle
+
+        @Test
+        fun `should parse a valid obstacle`() {
+            assertThat(parse("2 3")).isEqualTo(Try.Success(Obstacle(Point(2, 3))))
+        }
+    }
+
+    @Nested
     inner class DirectionParsingTest {
 
-        private val parse: DomainParser<Direction> = Parsers::parseDirection
+        private val parse = DefaultParser::parseDirection
 
         @ParameterizedTest
         @CsvSource("E,EAST", "N,NORTH", "W,WEST", "S, SOUTH")
@@ -77,9 +88,9 @@ internal class ParsersTest {
     @Nested
     inner class CommandParsingTest {
 
-        private val parseSingle = Parsers::parseCommand
+        private val parseSingle = DefaultParser::parseCommand
 
-        private val parseMultiple = Parsers::parseCommands
+        private val parseMultiple = DefaultParser::parseCommands
 
         @TestFactory
         fun `should parse valid single command`() = listOf(

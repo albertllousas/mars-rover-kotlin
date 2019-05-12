@@ -9,5 +9,4 @@ data class Grid(val sizeX: Int, val sizeY: Int, val obstacles: List<Obstacle> = 
             .find { obstacle -> obstacle.point == pointWithinBoundaries }
             ?.let { Either.left(it) } ?: Either.right(position.copy(point = pointWithinBoundaries))
     }
-
 }

@@ -13,8 +13,8 @@ import com.wallapop.marsrover.core.model.Direction.NORTH
 import com.wallapop.marsrover.core.model.Grid
 import com.wallapop.marsrover.core.model.MoveBackward
 import com.wallapop.marsrover.core.model.MoveForward
+import com.wallapop.marsrover.core.model.Obstacle
 import com.wallapop.marsrover.core.model.Point
-import com.wallapop.marsrover.core.model.RoverCommand
 import com.wallapop.marsrover.core.model.TurnRight
 import org.junit.jupiter.api.Test
 
@@ -24,11 +24,7 @@ internal class MarsRoverTest {
         given(it.lineSeparator).willReturn("\n")
     }
 
-    private val commandsParser = mock<DomainParser<List<RoverCommand>>>()
-
-    private val gridParser = mock<DomainParser<Grid>>()
-
-    private val pointParser = mock<DomainParser<Point>>()
+    private val domainParser = mock<DomainParser>()
 
     private val commandLineClient = MarsRover(console = console)
 
@@ -37,7 +33,7 @@ internal class MarsRoverTest {
     @Test
     fun `rover receives a character array of commands`() {
         val domainCommands = listOf(MoveForward, MoveBackward, TurnRight)
-        given(commandsParser.invoke(any())).willReturn(Try.just(domainCommands))
+        given(domainParser.parseCommands(any())).willReturn(Try.just(domainCommands))
 
         commandLineClient.main(arrayOf(commands))
 
@@ -46,7 +42,7 @@ internal class MarsRoverTest {
 
     @Test
     fun `rover accepts map size option`() {
-        given(gridParser.invoke(any())).willReturn(Try.just(Grid(1, 2)))
+        given(domainParser.parseGrid(any())).willReturn(Try.just(Grid(1, 2)))
 
         commandLineClient.main(arrayOf(commands, "--map-size=1 2"))
 
@@ -55,18 +51,19 @@ internal class MarsRoverTest {
 
     @Test
     fun `rover accepts multiple obstacles options`() {
-        given(pointParser.invoke(any()))
-            .willReturn(Try.just(Point(1, 2)))
-            .willReturn(Try.just(Point(2, 3)))
+        given(domainParser.parseObstacle(any()))
+            .willReturn(Try.just(Obstacle(Point(1, 2))))
+            .willReturn(Try.just(Obstacle(Point(2, 3))))
 
         commandLineClient.main(arrayOf(commands, "--obstacle=1 2", "--obstacle=2 3"))
 
-        assertThat(commandLineClient.obstacles).isEqualTo(listOf(Point(1, 2), Point(2, 3)))
+        assertThat(commandLineClient.obstacles)
+            .isEqualTo(listOf(Obstacle(Point(1, 2)), Obstacle(Point(2, 3))))
     }
 
     @Test
     fun `rover accepts initial rover starting option`() {
-        given(pointParser.invoke(any())).willReturn(Try.just(Point(0, 0)))
+        given(domainParser.parsePoint(any())).willReturn(Try.just(Point(0, 0)))
 
         commandLineClient.main(arrayOf(commands, "--initial-point=0 0"))
 
@@ -75,7 +72,7 @@ internal class MarsRoverTest {
 
     @Test
     fun `rover accepts initial rover direction`() {
-        given(pointParser.invoke(any())).willReturn(Try.just(Point(0, 0)))
+        given(domainParser.parseDirection(any())).willReturn(Try.just(NORTH))
 
         commandLineClient.main(arrayOf(commands, "--direction=N"))
 
@@ -84,7 +81,6 @@ internal class MarsRoverTest {
 
     @Test
     fun `rover prints hello world`() {
-        given(gridParser.invoke(any())).willReturn(Try.just(Grid(1, 2)))
 
         commandLineClient.main(arrayOf(commands))
 
