@@ -1,3 +1,11 @@
 package com.wallapop.marsrover.core.model
 
-data class Position(val point: Point, val direction: Direction)
+data class Position(val point: Point, val direction: Direction) {
+    fun next(command: RoverCommand): Position =
+        when (command) {
+            is MoveForward -> this.copy(point = point.moveTo(direction))
+            is MoveBackward -> this.copy(point = point.moveTo(direction.opposite()))
+            is TurnRight -> this.copy(direction = direction.right())
+            is TurnLeft -> this.copy(direction = direction.left())
+        }
+}
