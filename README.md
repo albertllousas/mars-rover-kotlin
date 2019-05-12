@@ -41,9 +41,10 @@ As we are using gradle wrapper the project requires only a Java JDK or JRE versi
 To check run `java -version`.
 
 ### Running the tests
-
+ 
 ```bash
 ./gradlew test
+open build/reports/tests/test/index.html
 ```
 Jococo has been added to check the overall coverage of the project, run:
 ```bash
@@ -78,6 +79,10 @@ In this exercise I have tried to do stick in two main things:
 - Refactor the java legacy code that came with the enunciate.
 - Use TDD to guide me through the design and cover all the code with tests.
 
+The code is split in two main layers, all fully tested, even the cli 🤘
+- cli: Command line interface framework, parsers and formatters
+- core: Domain layer, all the logic
+
 The code should be self explanatory and you will see that I have a lot of influence from functional programming, 
 (immutability, lambdas, monads ...), but I have tried to make it as clean as possible.
 
@@ -111,6 +116,7 @@ After only two days working in that exercise I have leaved it with some pending 
 - Think about a model that supports infinite command parsing
 - Find a better coverage library
 - Add a usecase/service layer to decouple and orchestrate presentation from domain 
+- CI 
 
 
 
