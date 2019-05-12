@@ -4,10 +4,12 @@ import arrow.core.Either
 import arrow.core.Either.Left
 import arrow.core.Either.Right
 
+private val noop = { _: Any -> Unit }
 
 data class Rover(
     val position: Position,
-    val move: (Position, RoverCommand) -> Either<Obstacle, Position>
+    val move: (Position, RoverCommand) -> Either<Obstacle, Position>,
+    val report: (Obstacle) -> Unit = noop
 ) {
     fun execute(commands: List<RoverCommand>): Position {
         return execute(position, commands)
@@ -18,7 +20,7 @@ data class Rover(
             currentPosition
         } else {
             when (val movement = move(currentPosition, commands.first())) {
-                is Left -> currentPosition
+                is Left -> currentPosition.also { report(movement.a) }
                 is Right -> execute(movement.b, commands.drop(1))
             }
         }

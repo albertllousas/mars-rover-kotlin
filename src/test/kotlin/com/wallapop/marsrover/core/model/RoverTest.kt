@@ -1,11 +1,13 @@
 package com.wallapop.marsrover.core.model
 
 import arrow.core.Either
+import arrow.core.Left
 import arrow.core.Right
 import assertk.assertThat
 import assertk.assertions.isEqualTo
 import com.nhaarman.mockitokotlin2.given
 import com.nhaarman.mockitokotlin2.mock
+import com.nhaarman.mockitokotlin2.verify
 import com.wallapop.marsrover.core.model.Direction.EAST
 import com.wallapop.marsrover.core.model.Direction.NORTH
 import org.junit.jupiter.api.Test
@@ -39,5 +41,21 @@ internal class RoverTest {
         val actual = rover.execute(commands)
 
         assertThat(actual).isEqualTo(finalPosition)
+    }
+
+    @Test
+    fun `should report rover when an obstacle is detected`() {
+        val initialPosition = Position(Point(1, 1), NORTH)
+        val obstacle = Obstacle(Point(1, 2))
+        val report = mock<(Obstacle) -> Unit>()
+        val rover = Rover(initialPosition, move, report)
+        val commands = listOf(MoveForward, TurnRight, MoveForward)
+        given(move.invoke(initialPosition, MoveForward)).willReturn(Left(obstacle))
+
+        val actual = rover.execute(commands)
+
+        assertThat(actual).isEqualTo(initialPosition)
+
+        verify(report).invoke(obstacle)
     }
 }
