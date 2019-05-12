@@ -13,9 +13,7 @@ data class Rover(
     val report: (Obstacle) -> Unit = noop
 ) {
 
-    fun execute(commands: List<RoverCommand>): Rover {
-        return this.copy(position = execute(position, commands))
-    }
+    fun execute(commands: List<RoverCommand>): Rover = this.copy(position = execute(position, commands))
 
     private tailrec fun execute(currentPosition: Position, commands: List<RoverCommand>): Position =
         if (commands.isEmpty()) {
