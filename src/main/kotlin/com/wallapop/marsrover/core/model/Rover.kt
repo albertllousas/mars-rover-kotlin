@@ -6,11 +6,14 @@ import arrow.core.Either.Right
 
 private val noop = { _: Any -> Unit }
 
+typealias RoverMovement = (command: RoverCommand) -> Either<Obstacle, Position>
+
+typealias Report = (Obstacle) -> Unit
+
 data class Rover(
     val position: Position,
-    val grid: Grid,
-    val move: (command: RoverCommand) -> Either<Obstacle, Position>,
-    val report: (Obstacle) -> Unit = noop
+    private val move: RoverMovement,
+    private val report: Report = noop
 ) {
 
     fun execute(commands: List<RoverCommand>): Rover = this.copy(position = execute(position, commands))

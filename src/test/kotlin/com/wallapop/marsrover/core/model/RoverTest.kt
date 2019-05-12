@@ -14,14 +14,12 @@ import org.junit.jupiter.api.Test
 
 internal class RoverTest {
 
-    private val grid = Grid(10, 10)
-
     private val move = mock<(RoverCommand) -> Either<Obstacle, Position>>()
 
     @Test
     fun `should not move rover when commands are empty`() {
         val initialPosition = Position(Point(1, 1), NORTH)
-        val rover = Rover(initialPosition, grid, move)
+        val rover = Rover(initialPosition, move)
 
         val actual = rover.execute(emptyList())
 
@@ -34,7 +32,7 @@ internal class RoverTest {
         val secondPosition = Position(Point(1, 2), NORTH)
         val thirdPosition = Position(Point(1, 2), EAST)
         val finalPosition = Position(Point(2, 2), EAST)
-        val rover = Rover(initialPosition, grid, move)
+        val rover = Rover(initialPosition, move)
         val commands = listOf(MoveForward, TurnRight, MoveForward)
         given(move.invoke(MoveForward)).willReturn(Right(secondPosition))
         given(move.invoke(TurnRight)).willReturn(Right(thirdPosition))
@@ -50,7 +48,7 @@ internal class RoverTest {
         val initialPosition = Position(Point(1, 1), NORTH)
         val obstacle = Obstacle(Point(1, 2))
         val report = mock<(Obstacle) -> Unit>()
-        val rover = Rover(initialPosition, grid, report = report, move = move)
+        val rover = Rover(initialPosition, report = report, move = move)
         val commands = listOf(MoveForward, TurnRight, MoveForward)
         given(move.invoke(MoveForward)).willReturn(Left(obstacle))
 
