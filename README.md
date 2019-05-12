@@ -20,7 +20,7 @@ We want to see your changes but not make them public. In order to do so create a
 
 We need the commit list in order to check the evolution, naming and changes you made during the process.
 
-### What we expect
+### What you expect
 Our intern have made as good as it could but not as we would. 
 
 - Feel free to change as much code as you want, but you'll have to make it readable and maintainable.
@@ -45,8 +45,15 @@ To check run `java -version`.
 ```bash
 ./gradlew test
 ```
+Jococo has been added to check the overall coverage of the project, run:
+```bash
+./gradlew jacocoTestReport
+open build/jacocoHtml/index.html
+```
+The Plugin seems to does not work pretty accurate with kotlin, some tested branches are not detected and
+the *plugin gives you some false negatives*. 
 
-### Building
+### Building and packaging
 
 ```bash
 ./gradlew shadowJar
@@ -54,13 +61,56 @@ To check run `java -version`.
 
 ### Running locally
 
+Just run the fat-jar after building (previous section):
 ```bash
-./gradlew run
+java -jar build/libs/mars-rover-kata-wp-all.jar --help
 ```
-Or just run the fat-jar after building (previous section):
+Working sample 
+`java -jar build/libs/mars-rover-kata-wp-all.jar ffrfflfbf --initial-point="5 5" --direction=N --map-size="20 20"`
+Or
 ```bash
-java -jar build/libs/mars-rover-kata-wp-all.jar
+ ./gradlew run --args='ffrfflfbf --initial-point="5 5" --direction=N --map-size="20 20"'
 ```
+
+## Approach
+
+In this exercise I have tried to do stick in two main things:
+- Refactor the java legacy code that came with the enunciate.
+- Use TDD to guide me through the design and cover all the code with tests.
+
+The code should be self explanatory and you will see that I have a lot of influence from functional programming, 
+(immutability, lambdas, monads ...), but I have tried to make it as clean as possible.
+
+Usually I keep and eye in the big picture, but in this kata I have been following YAGNI principle, so in theory the code
+shouldn't be over-engineered.
+
+If you check the commit log you will also see that I have been jumping from outside-in to inside-out TDD approaches 
+during the exercise.
+
+## Tech stack
+
+- Language: Kotlin
+- 3rd party libs:
+    - Testing:
+        - JUnit5
+        - Mockito 2
+        - Assertk
+        - Jococo
+    - Functional Programming support: Arrow
+    - CLI: clikt
+    
+## Improvements
+
+After only two days working in that exercise I have leaved it with some pending improvements:
+
+- Grid validation, the size (negative values) and the obstacles (are they inside the grid?) are not validated
+- Better integration testing of the cli
+- Use `spek` instead `junit5` for testing
+- Use `mockk` instead of `mockito`
+- Logging
+- Think about a model that supports infinite command parsing
+- Find a better coverage library
+- Add a usecase/service layer to decouple and orchestrate presentation from domain 
 
 
 
