@@ -1,6 +1,5 @@
 package com.wallapop.marsrover.core.model
 
-import arrow.core.Either
 import arrow.core.Either.Left
 import arrow.core.Either.Right
 import arrow.core.andThen
@@ -8,20 +7,20 @@ import arrow.core.andThen
 private val noop = { _: Any -> Unit }
 
 data class Rover(
-    val position: Position,
-    val grid: Grid,
-    private val report: (Obstacle) -> Unit = noop
+        val position: Position,
+        val grid: Grid,
+        private val report: (Obstacle) -> Unit = noop
 ) {
     fun execute(commands: List<RoverCommand>): Rover = this.copy(position = execute(position, commands))
 
     private tailrec fun execute(currentPosition: Position, commands: List<RoverCommand>): Position =
-        if (commands.isEmpty()) {
-            currentPosition
-        } else {
-            val move = currentPosition::calculateNext.andThen(grid::tryToFit)
-            when (val movement = move(commands.first())) {
-                is Left -> currentPosition.also { report(movement.a) }
-                is Right -> execute(movement.b, commands.drop(1))
+            if (commands.isEmpty()) {
+                currentPosition
+            } else {
+                val move = currentPosition::calculateNext.andThen(grid::tryToFit)
+                when (val movement = move(commands.first())) {
+                    is Left -> currentPosition.also { report(movement.a) }
+                    is Right -> execute(movement.b, commands.drop(1))
+                }
             }
-        }
 }
