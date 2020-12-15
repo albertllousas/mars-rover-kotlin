@@ -1,4 +1,4 @@
-package com.wallapop.marsrover.core.model
+package com.alo.marsrover.core.model
 
 import arrow.core.Left
 import arrow.core.Right
@@ -7,7 +7,7 @@ import assertk.assertions.isEqualTo
 import com.nhaarman.mockitokotlin2.given
 import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.verify
-import com.wallapop.marsrover.core.model.Direction.NORTH
+import com.alo.marsrover.core.model.Direction.NORTH
 import org.junit.jupiter.api.Test
 
 internal class RoverTest {

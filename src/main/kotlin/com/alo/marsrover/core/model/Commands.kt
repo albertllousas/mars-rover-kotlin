@@ -1,4 +1,4 @@
-package com.wallapop.marsrover.core.model
+package com.alo.marsrover.core.model
 
 sealed class RoverCommand {
     override fun toString(): String = this.javaClass.simpleName

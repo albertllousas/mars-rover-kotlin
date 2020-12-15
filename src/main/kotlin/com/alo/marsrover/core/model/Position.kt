@@ -1,4 +1,4 @@
-package com.wallapop.marsrover.core.model
+package com.alo.marsrover.core.model
 
 data class Position(val point: Point, val direction: Direction) {
     fun calculateNext(command: RoverCommand): Position =

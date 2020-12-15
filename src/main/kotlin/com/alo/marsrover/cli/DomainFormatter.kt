@@ -1,8 +1,8 @@
-package com.wallapop.marsrover.cli
+package com.alo.marsrover.cli
 
-import com.wallapop.marsrover.core.model.Obstacle
-import com.wallapop.marsrover.core.model.Point
-import com.wallapop.marsrover.core.model.Rover
+import com.alo.marsrover.core.model.Obstacle
+import com.alo.marsrover.core.model.Point
+import com.alo.marsrover.core.model.Rover
 
 interface DomainFormatter {
     fun format(obstacle: Obstacle): String

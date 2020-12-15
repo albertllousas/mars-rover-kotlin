@@ -1,9 +1,9 @@
-package com.wallapop.marsrover.core.model
+package com.alo.marsrover.core.model
 
 import arrow.core.Either
 import assertk.assertThat
 import assertk.assertions.isEqualTo
-import com.wallapop.marsrover.core.model.Direction.NORTH
+import com.alo.marsrover.core.model.Direction.NORTH
 import org.junit.jupiter.api.Test
 
 internal class GridTest {

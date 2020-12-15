@@ -1,19 +1,19 @@
-package com.wallapop.marsrover.cli
+package com.alo.marsrover.cli
 
 import arrow.core.Try
-import com.wallapop.marsrover.core.model.Direction
-import com.wallapop.marsrover.core.model.Direction.EAST
-import com.wallapop.marsrover.core.model.Direction.NORTH
-import com.wallapop.marsrover.core.model.Direction.SOUTH
-import com.wallapop.marsrover.core.model.Direction.WEST
-import com.wallapop.marsrover.core.model.Grid
-import com.wallapop.marsrover.core.model.MoveBackward
-import com.wallapop.marsrover.core.model.MoveForward
-import com.wallapop.marsrover.core.model.Obstacle
-import com.wallapop.marsrover.core.model.Point
-import com.wallapop.marsrover.core.model.RoverCommand
-import com.wallapop.marsrover.core.model.TurnLeft
-import com.wallapop.marsrover.core.model.TurnRight
+import com.alo.marsrover.core.model.Direction
+import com.alo.marsrover.core.model.Direction.EAST
+import com.alo.marsrover.core.model.Direction.NORTH
+import com.alo.marsrover.core.model.Direction.SOUTH
+import com.alo.marsrover.core.model.Direction.WEST
+import com.alo.marsrover.core.model.Grid
+import com.alo.marsrover.core.model.MoveBackward
+import com.alo.marsrover.core.model.MoveForward
+import com.alo.marsrover.core.model.Obstacle
+import com.alo.marsrover.core.model.Point
+import com.alo.marsrover.core.model.RoverCommand
+import com.alo.marsrover.core.model.TurnLeft
+import com.alo.marsrover.core.model.TurnRight
 
 interface DomainParser {
     fun parseDirection(direction: String): Try<Direction>

@@ -1,10 +1,10 @@
-package com.wallapop.marsrover
+package com.alo.marsrover
 
 import com.github.ajalt.clikt.output.CliktConsole
 import com.nhaarman.mockitokotlin2.given
 import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.verify
-import com.wallapop.marsrover.cli.MarsRover
+import com.alo.marsrover.cli.MarsRover
 import org.junit.jupiter.api.Test
 
 internal class MarsRoverAcceptanceTest {

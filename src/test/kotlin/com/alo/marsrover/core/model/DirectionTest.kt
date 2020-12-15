@@ -1,4 +1,4 @@
-package com.wallapop.marsrover.core.model
+package com.alo.marsrover.core.model
 
 import assertk.assertThat
 import assertk.assertions.isEqualTo

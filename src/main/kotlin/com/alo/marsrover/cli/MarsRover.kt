@@ -1,4 +1,4 @@
-package com.wallapop.marsrover.cli
+package com.alo.marsrover.cli
 
 import arrow.core.getOrDefault
 import arrow.core.getOrElse
@@ -13,12 +13,12 @@ import com.github.ajalt.clikt.parameters.options.default
 import com.github.ajalt.clikt.parameters.options.multiple
 import com.github.ajalt.clikt.parameters.options.option
 import com.github.ajalt.clikt.parameters.types.choice
-import com.wallapop.marsrover.core.model.Direction.NORTH
-import com.wallapop.marsrover.core.model.Grid
-import com.wallapop.marsrover.core.model.Obstacle
-import com.wallapop.marsrover.core.model.Point
-import com.wallapop.marsrover.core.model.Position
-import com.wallapop.marsrover.core.model.Rover
+import com.alo.marsrover.core.model.Direction.NORTH
+import com.alo.marsrover.core.model.Grid
+import com.alo.marsrover.core.model.Obstacle
+import com.alo.marsrover.core.model.Point
+import com.alo.marsrover.core.model.Position
+import com.alo.marsrover.core.model.Rover
 
 class MarsRover(
     private val roverCreator: (Position, Grid, (Obstacle) -> Unit) -> Rover = ::Rover,

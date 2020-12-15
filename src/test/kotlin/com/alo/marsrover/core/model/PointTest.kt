@@ -1,8 +1,8 @@
-package com.wallapop.marsrover.core.model
+package com.alo.marsrover.core.model
 
 import assertk.assertThat
 import assertk.assertions.isEqualTo
-import com.wallapop.marsrover.core.model.Direction.*
+import com.alo.marsrover.core.model.Direction.*
 import org.junit.Test
 
 internal class PointTest {

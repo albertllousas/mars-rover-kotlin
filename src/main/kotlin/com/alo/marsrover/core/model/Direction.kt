@@ -1,4 +1,4 @@
-package com.wallapop.marsrover.core.model
+package com.alo.marsrover.core.model
 
 enum class Direction {
     NORTH, EAST,SOUTH, WEST;

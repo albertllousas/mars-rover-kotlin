@@ -1,4 +1,4 @@
-package com.wallapop.marsrover.cli
+package com.alo.marsrover.cli
 
 import assertk.assertAll
 import assertk.assertThat
@@ -8,16 +8,16 @@ import com.nhaarman.mockitokotlin2.any
 import com.nhaarman.mockitokotlin2.given
 import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.verify
-import com.wallapop.marsrover.core.model.Direction
-import com.wallapop.marsrover.core.model.Direction.NORTH
-import com.wallapop.marsrover.core.model.Grid
-import com.wallapop.marsrover.core.model.MoveBackward
-import com.wallapop.marsrover.core.model.MoveForward
-import com.wallapop.marsrover.core.model.Obstacle
-import com.wallapop.marsrover.core.model.Point
-import com.wallapop.marsrover.core.model.Position
-import com.wallapop.marsrover.core.model.Rover
-import com.wallapop.marsrover.core.model.TurnRight
+import com.alo.marsrover.core.model.Direction
+import com.alo.marsrover.core.model.Direction.NORTH
+import com.alo.marsrover.core.model.Grid
+import com.alo.marsrover.core.model.MoveBackward
+import com.alo.marsrover.core.model.MoveForward
+import com.alo.marsrover.core.model.Obstacle
+import com.alo.marsrover.core.model.Point
+import com.alo.marsrover.core.model.Position
+import com.alo.marsrover.core.model.Rover
+import com.alo.marsrover.core.model.TurnRight
 import org.junit.jupiter.api.Test
 
 internal class MarsRoverTest {

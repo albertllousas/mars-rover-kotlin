@@ -4,6 +4,10 @@
 
 ### Description
 
+We have an [initial java program](./InitialLegacyProgram.java) that someone made a long time ago.
+
+We want to refactor it and create a new one based on it.
+
 Develop an api that moves a rover around on a grid using a command line client.
 
 - Command line should be 
@@ -63,8 +67,8 @@ Or
 
 ## Approach
 
-In this exercise I have tried to do stick in two main things:
-- Refactor the java legacy code that came with the enunciate.
+In this exercise I have tried to stick in two main things:
+- Refactor the java [legacy code](./InitialLegacyProgram.java).
 - Use TDD to guide me through the design and cover all the code with tests.
 
 The code is split in two main layers:
@@ -99,11 +103,7 @@ After only two days working in that exercise I have leaved it with some pending 
 
 - Grid validation, the size (negative values) and the obstacles (are they inside the grid?) are not validated
 - Better integration testing of the cli
-- Use `spek` instead `junit5` for testing
-- Use `mockk` instead of `mockito`
 - Logging
-- Think about a model that supports infinite command parsing
-- Find a better coverage library
 - Add a usecase/service layer to orchestrate and decouple presentation from domain 
 - CI 
 - Remove gradle warnings

@@ -1,6 +1,6 @@
-package com.wallapop.marsrover.core.model
+package com.alo.marsrover.core.model
 
-import com.wallapop.marsrover.core.model.Direction.*
+import com.alo.marsrover.core.model.Direction.*
 
 data class Point(val x: Int, val y: Int) {
     fun moveTo(direction: Direction) =
