@@ -1,4 +1,4 @@
-# Mars rover - Wallapop tech assignment
+# Mars rover
 
 ## Problem description
 
