@@ -1,11 +1,12 @@
 # Mars rover
 
-## Problem description
+## Problem 
 
 ### Description
 
-Develop an api that moves a rover around on a grid.
+Develop an api that moves a rover around on a grid using a command line client.
 
+- Command line should be 
 - You will have to provide the map size
 - You will have to provide the number of obstacles and their position
 - You will have to provide the initial starting point (x,y) of a rover and the direction (N,S,E,W) it is facing.
@@ -19,19 +20,6 @@ Develop an api that moves a rover around on a grid.
 We want to see your changes but not make them public. In order to do so create a new repo on bitbucket based on this project, make all the changes and give us access to see them ;).
 
 We need the commit list in order to check the evolution, naming and changes you made during the process.
-
-### What you expect
-Our intern have made as good as it could but not as we would. 
-
-- Feel free to change as much code as you want, but you'll have to make it readable and maintainable.
-- Use any JVM language.
-- Code should be self-executable and self-compiled. This includes any dependency manager we will need (hint: maven or gradle)
-- Feel free to use any pattern, framework or whatever you want to.
-- Bug free will be a plus.
-- Include in your readme:
-  A brief text explaining what tech stack you used, architecture, design patterns...
-  Any problem you ran into while doing the code.
-  What you think could be improved in case there is any improvement to your own code.
   
 ## Getting Started
 
